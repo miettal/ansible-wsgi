@@ -1,0 +1,27 @@
+[Unit]
+Description={{ service_name }} gunicorn daemon
+After=network.target
+
+[Service]
+PIDFile=/run/{{ service_name }}.pid
+RuntimeDirectory=gunicorn
+ExecStart=/usr/local/bin/gunicorn {{ application }}:app \
+  --user={{ user_name }}\
+  --bind={{ bind }} \
+  --pid=/run/{{ service_name }}.pid \
+  --worker-connections=32 \
+  --worker-class=gevent \
+  --workers={{ worker }} \
+  --timeout=300 \
+  --log-level={{ log_level }}\
+  --log-file=/var/log/{{ service_name }}/{{ service_name }}.log \
+  --access-logfile=/var/log/{{ service_name }}/access.log \
+  {% if log_level == "debug" %} --reload {% endif %} \
+  {% if log_level == "debug" %} --reload-engine poll {% endif %}
+
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=false
+
+[Install]
+WantedBy=multi-user.target

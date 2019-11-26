@@ -1,0 +1,35 @@
+- name: install python3 environment
+  apt:
+    name:
+      - python3
+      - python3-pip
+      - python3-setuptools
+- name: create user
+  user:
+    name: "{{ user_name }}"
+- name: create log directory
+  file:
+    path: /var/log/{{ service_name }}/
+    owner: "{{ service_name }}"
+    group: "{{ service_name }}"
+    recurse: yes
+    state: directory
+- name: install application server
+  pip:
+    name:
+      - gunicorn
+      - gevent
+    executable: pip3
+- name: generate systemd service file
+  template:
+    src: templates/daemon.service
+    dest: /etc/systemd/system/{{ service_name }}.service
+    owner: root
+    group: root
+    mode: 0755
+- name: run service
+  systemd:
+    name: "{{ service_name }}"
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
