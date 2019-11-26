@@ -1,7 +1,7 @@
 # how to use
 
     - role: ansible-wsgi
-      usern_ame: appuser
+      user_name: appuser
       service_name: appservice
       application: app
       bind: localhost:5000
