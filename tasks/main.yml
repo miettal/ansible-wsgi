@@ -10,8 +10,8 @@
 - name: create log directory
   file:
     path: /var/log/{{ service_name }}/
-    owner: "{{ service_name }}"
-    group: "{{ service_name }}"
+    owner: "{{ user_name }}"
+    group: "{{ user_name }}"
     recurse: yes
     state: directory
 - name: install application server
