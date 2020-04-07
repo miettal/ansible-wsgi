@@ -4,6 +4,11 @@
       - python3
       - python3-pip
       - python3-setuptools
+- name: install application server
+  pip:
+    name: pip
+    state: latest
+    executable: pip3
 - name: create user
   user:
     name: "{{ user_name }}"
