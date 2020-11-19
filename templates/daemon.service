@@ -9,15 +9,15 @@ ExecStart=/usr/local/bin/gunicorn {{ application }} \
   --user={{ user_name }}\
   --bind={{ bind }} \
   --pid=/run/{{ service_name }}.pid \
-  --worker-connections=32 \
   --worker-class=gevent \
-  --workers={{ worker }} \
-  --timeout=300 \
   --log-level={{ log_level }}\
   --log-file=/var/log/{{ service_name }}/{{ service_name }}.log \
   --access-logfile=/var/log/{{ service_name }}/access.log \
   {% if log_level == "debug" %} --reload {% endif %} \
-  {% if log_level == "debug" %} --reload-engine poll {% endif %}
+  {% if log_level == "debug" %} --reload-engine poll {% endif %} \
+{% for (k, v) in gunicorn_config.items() %} \
+  --{{ k }}={{ v }} \
+{% endfor %}
 
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
