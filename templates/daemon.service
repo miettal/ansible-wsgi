@@ -5,6 +5,9 @@ After=network.target
 [Service]
 PIDFile=/run/{{ service_name }}.pid
 RuntimeDirectory=gunicorn
+{% for (k, v) in environment_variable.items() %}
+Environment={{ k }}={{ v }}
+{% endfor %}
 ExecStart=/usr/local/bin/gunicorn {{ application }} \
   --user={{ user_name }} \
   --bind={{ bind }} \
