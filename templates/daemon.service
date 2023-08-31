@@ -25,6 +25,7 @@ ExecStart=/usr/local/bin/gunicorn {{ application }} \
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 PrivateTmp=false
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
