@@ -8,7 +8,7 @@ RuntimeDirectory=gunicorn
 {% for (k, v) in environment_variable.items() %}
 Environment={{ k }}={{ v }}
 {% endfor %}
-ExecStart=/usr/local/bin/gunicorn {{ application }} \
+ExecStart={{ virtualenv| default('/usr/local') }}/bin/gunicorn {{ application }} \
   --user={{ user_name }} \
   --bind={{ bind }} \
   --pid=/run/{{ service_name }}.pid \

@@ -19,7 +19,8 @@
     name:
       - gunicorn
       - gevent
-    executable: pip3
+    executable: "{{ executable | default(omit) }}"
+    virtualenv: "{{ virtualenv | default(omit) }}"
 - name: generate systemd service file
   template:
     src: templates/daemon.service
