@@ -5,6 +5,7 @@ After=network.target
 [Service]
 PIDFile=/run/{{ service_name }}.pid
 RuntimeDirectory=gunicorn
+Environment=HOME=/home/{{ user_name }}
 {% for (k, v) in environment_variable.items() %}
 Environment={{ k }}={{ v }}
 {% endfor %}
